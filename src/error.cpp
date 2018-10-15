@@ -9,6 +9,13 @@ double mae_(NumericVector actual, NumericVector predicted) {
 
 
 // [[Rcpp::export]]
+double mape_(NumericVector actual, NumericVector predicted) {
+  double mape = mean(abs(actual - predicted)/actual);
+  return mape;
+}
+
+
+// [[Rcpp::export]]
 double ce_(NumericVector actual, NumericVector predicted) {
 
   double Rows = predicted.size();

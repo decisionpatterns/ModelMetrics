@@ -1,7 +1,7 @@
-#' @title Mean absolute error
-#' @description Calculates the mean absolute error
+#' @title Mean absolute percent error
+#' @description Calculates the mean absolute percent error
 #'
-#' @param actual A vector of actual responses
+#' @param actual A vector actual responses
 #' @param predicted A vector of predicted values
 #' @param \dots additional parameters to be passed the the s3 methods
 #' @param modelObject the model object. Currently supported \code{glm, randomForest, glmerMod, gbm}
@@ -11,24 +11,24 @@
 #'  actual <- 1:3
 #'  predicted <- actual / 2
 #'
-#'  mae(actual,predicted)
+#'  mape(actual,predicted)
 #'
 #' @export
 
-mae <- function(...){
-  UseMethod("mae")
+mape <- function(...){
+  UseMethod("mape")
 }
 
-#' @rdname mae
+#' @rdname mape
 #' @export
-mae.default <- function(actual, predicted, ...){
-  mae_(actual, predicted)
+mape.default <- function(actual, predicted, ...){
+  mape_(actual, predicted)
 }
 
 
-#' @rdname mae
+#' @rdname mape
 #' @export
-mae.glm <- function(modelObject, ...){
+mape.glm <- function(modelObject, ...){
 
   family <- family(modelObject)[[1]]
   if(any(family %in% c('binomial', 'poisson'))){
@@ -38,46 +38,46 @@ mae.glm <- function(modelObject, ...){
     stop(paste0("family: ", family, " is not currently supported"))
   }
 
-  mae.default(actual, predicted)
+  mape.default(actual, predicted)
 }
 
-#' @rdname mae
+#' @rdname mape
 #' @export
-mae.randomForest <- function(modelObject, ...){
+mape.randomForest <- function(modelObject, ...){
 
   actual <- as.numeric(modelObject$y) - 1
   predicted <- predict(modelObject, type = 'prob')[,2]
 
-  mae.default(actual, predicted)
+  mape.default(actual, predicted)
 }
 
-#' @rdname mae
+#' @rdname mape
 #' @export
-mae.glmerMod <- function(modelObject, ...){
+mape.glmerMod <- function(modelObject, ...){
 
   actual <- modelObject@resp$y
   predicted <- modelObject@resp$mu
 
-  mae.default(actual, predicted)
+  mape.default(actual, predicted)
 }
 
-#' @rdname mae
+#' @rdname mape
 #' @export
-mae.gbm <- function(modelObject, ...){
+mape.gbm <- function(modelObject, ...){
 
   actual <- modelObject$data$y
   predicted <- modelObject$fit
 
-  mae.default(actual, predicted)
+  mape.default(actual, predicted)
 }
 
-#' @rdname mae
+#' @rdname mape
 #' @export
-mae.rpart <- function(modelObject, ...){
+mape.rpart <- function(modelObject, ...){
 
   actual <- modelObject$y
   predicted <- predict(modelObject)
 
-  mae.default(actual, predicted)
+  mape.default(actual, predicted)
 }
 

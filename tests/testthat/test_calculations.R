@@ -110,6 +110,12 @@ test_that("mae returns correct values", {
 
 })
 
+test_that("mape returns correct values", {
+
+  expect_equal(mape(testDF$y, Preds), 0.09440662, tolerance = .000001)
+  expect_equal(mape(glmModel), 0.09440662, tolerance = .000001)
+
+})
 
 test_that("msle returns correct values", {
 

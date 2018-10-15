@@ -53,6 +53,10 @@ mae_ <- function(actual, predicted) {
     .Call('ModelMetrics_mae_', PACKAGE = 'ModelMetrics', actual, predicted)
 }
 
+mape_ <- function(actual, predicted) {
+    .Call('ModelMetrics_mape_', PACKAGE = 'ModelMetrics', actual, predicted)
+}
+
 ce_ <- function(actual, predicted) {
     .Call('ModelMetrics_ce_', PACKAGE = 'ModelMetrics', actual, predicted)
 }

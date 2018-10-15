@@ -25,7 +25,7 @@ mae(...)
 \method{mae}{rpart}(modelObject, ...)
 }
 \arguments{
-\item{actual}{A vector of the labels}
+\item{actual}{A vector of actual responses}
 
 \item{predicted}{A vector of predicted values}
 
@@ -35,5 +35,13 @@ mae(...)
 }
 \description{
 Calculates the mean absolute error
+}
+\examples{
+
+ actual <- 1:3
+ predicted <- actual / 2
+
+ mae(actual,predicted)
+
 }
 
