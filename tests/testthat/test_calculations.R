@@ -87,6 +87,12 @@ test_that("f1 score returns correct values", {
 
 })
 
+test_that("f1 score and F score agree with beta 1 (default value)", {
+
+  expect_equal(f1Score(testDF$y, Preds, .5), fScore(testDF$y, Preds, .5, 1), tolerance = .000001)
+
+})
+
 test_that("mcc returns correct values", {
 
   expect_equal(mcc(testDF$y, Preds, .5), 0.8508762, tolerance = .000001)
@@ -127,8 +133,34 @@ test_that("msle returns correct values", {
 
 test_that("rmsle returns correct values", {
 
-  expect_equal(rmsle(testDF$y, Preds), 0.2188343, tolerance = .000001)
-  expect_equal(rmsle(glmModel), 0.2188343, tolerance = .000001)
+  expect_equal(rmsle(testDF$y, Preds), 0.1522501, tolerance = .000001)
+  expect_equal(rmsle(glmModel), 0.1522501, tolerance = .000001)
+
+
+})
+
+
+test_that("rmsle returns correct values", {
+
+  A <- c(rep(1, 63), rep(0, 31))
+  B <- c(rep(1, 61), rep(0, 25), rep(1, 6), rep(0, 2))
+
+  tab <- table(A, B)
+
+  a = tab[2,2]
+  b = tab[2,1]
+  c = tab[1,2]
+  d = tab[1,1]
+
+  marginA = ((a + b)*(a + c))/(a + b + c + d)
+  marginB = ((c + d)*(b + d))/(a + b + c + d)
+
+  Pe = (marginA + marginB)/(a + b + c + d)
+  Po = (a + d)/(a + b + c + d)
+
+  manualKappa = (Po - Pe)/(1 - Pe)
+
+  expect_equal(kappa(A, B), manualKappa, tolerance = .000001)
 
 
 })
